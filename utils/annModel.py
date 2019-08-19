@@ -40,4 +40,37 @@ def Training(x_train, y_train, df, NUMBER_OF_CLASSES):
     save_model(model, "{batch}_{epoch}_{suffix}".format(batch=BATCH_SIZE, epoch=EPOCHS, suffix='none'))
 
 
+class Model():
+    '''
+    Usage: 
+    
+    from utils.annModel import Model
+    
+    Model.predict(list_endcodings)
+    
+    Return list names prediction
+
+    '''
+
+
+    def __init__(self):
+        
+        self.model = model_from_json(open("cache/architecture_32_100_none.json").read())
+        self.model.load_weights("cache/model_weights_32_100_none.h5")
+        self.df = pd.read_csv('CSV_LIST/CSV_List.csv')
+        NUMBER_OF_CLASSES = self.df['ID'].values.max() + 1
+    
+        self.classes = []
+        
+        for i in range(NUMBER_OF_CLASSES):
+            self.classes.append(self.df[self.df['ID'] == i]['Name'].iloc[0])
+
+    def predict(self, face_endcodings):
+        vector = self.model.predict(face_endcodings)
+        index = np.argmax(vector, axis = 1)
+        
+
+        name = [self.classes[i] for i in index]
+
+        return name
 
