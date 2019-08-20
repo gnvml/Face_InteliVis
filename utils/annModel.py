@@ -59,6 +59,7 @@ class Model():
         self.model.load_weights("cache/model_weights_32_100_none.h5")
         self.df = pd.read_csv('CSV_LIST/CSV_List.csv')
         NUMBER_OF_CLASSES = self.df['ID'].values.max() + 1
+        self.data = np.load("train_data.npy")
     
         self.classes = []
         
@@ -66,11 +67,10 @@ class Model():
             self.classes.append(self.df[self.df['ID'] == i]['Name'].iloc[0])
 
     def predict(self, face_endcodings):
+        face_endcodings = np.asarray(face_endcodings)
         vector = self.model.predict(face_endcodings)
-        index = np.argmax(vector, axis = 1)
         
-
+        index = np.argmax(vector, axis = 1)      
         name = [self.classes[i] for i in index]
-
         return name
 
