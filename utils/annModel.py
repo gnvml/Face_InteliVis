@@ -59,7 +59,7 @@ class Model():
         self.model.load_weights("cache/model_weights_32_100_none.h5")
         self.df = pd.read_csv('CSV_LIST/CSV_List.csv')
         NUMBER_OF_CLASSES = self.df['ID'].values.max() + 1
-        self.data = np.load("train_data.npy")
+        # self.data = np.load("train_data.npy")
     
         self.classes = []
         
